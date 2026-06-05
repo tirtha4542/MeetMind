@@ -57,3 +57,5 @@ numpy>=1.26.4                     # numerical ops
 # ── Dev / Testing (optional, comment out for prod) ───────────────
 # pytest==8.3.3
 # pytest-asyncio==0.24.0
+langchain-pinecone>=0.2.13                 # Pinecone vector store (optional, for production use)
+pinecone-client>=2.3.0                   # Pinecone API client
