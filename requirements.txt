@@ -1,0 +1,59 @@
+# ════════════════════════════════════════════════════════════════
+#  AI Meeting Assistant — requirements.txt
+#  Python 3.11 recommended (3.13 not yet supported by PyTorch)
+# ════════════════════════════════════════════════════════════════
+
+# ── Web Framework & API ──────────────────────────────────────────
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+python-multipart==0.0.12          # file upload support in FastAPI
+sse-starlette==2.1.3              # Server-Sent Events streaming
+
+# ── Audio Acquisition ────────────────────────────────────────────
+yt-dlp==2024.11.18                # YouTube audio download
+pydub==0.25.1                     # audio format conversion / chunking
+
+# ── Speech-to-Text (faster-whisper — replaces openai-whisper) ───
+faster-whisper==1.1.0             # drop-in Whisper replacement, no build issues
+ffmpeg-python==0.2.0              # Python bindings (install ffmpeg binary separately)
+
+# ── Translation (Hindi → English) ───────────────────────────────
+deep-translator==1.11.4           # lightweight, free Google Translate wrapper
+langdetect==1.0.9                 # auto-detect source language
+
+# ── LangChain / LCEL ────────────────────────────────────────────
+langchain>=0.3.9
+langchain-core>=0.3.27
+langchain-community>=0.3.9
+langchain-mistralai>=0.2.4        # Mistral free-tier integration
+langchain-huggingface>=0.1.2      # HuggingFace embeddings via LangChain
+
+# ── LLM — Mistral (free API) ────────────────────────────────────
+mistralai>=1.2.5
+
+# ── Embeddings (HuggingFace, runs locally) ───────────────────────
+sentence-transformers>=3.3.1      # e.g. all-MiniLM-L6-v2
+huggingface-hub>=0.26.2
+transformers>=4.46.3
+tokenizers>=0.20.3
+
+# ── Vector Store — ChromaDB ──────────────────────────────────────
+chromadb>=0.5.20
+
+# ── PDF Export ───────────────────────────────────────────────────
+reportlab==4.2.5                  # programmatic PDF generation
+fpdf2==2.8.1                      # alternative lightweight PDF writer
+
+# ── Utilities ────────────────────────────────────────────────────
+python-dotenv==1.0.1              # .env file loading
+pydantic>=2.10.2                  # data validation (FastAPI uses this internally)
+httpx>=0.27.2                     # async HTTP client (used by Mistral SDK)
+aiofiles==24.1.0                  # async file I/O for FastAPI endpoints
+tenacity==9.0.0                   # retry / exponential backoff
+rich==13.9.4                      # pretty terminal logging
+tqdm==4.67.1                      # progress bars during transcription
+numpy>=1.26.4                     # numerical ops
+
+# ── Dev / Testing (optional, comment out for prod) ───────────────
+# pytest==8.3.3
+# pytest-asyncio==0.24.0
