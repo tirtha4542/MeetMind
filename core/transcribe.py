@@ -1,10 +1,16 @@
 import os
 from faster_whisper import WhisperModel
+from dotenv import load_dotenv
+
+load_dotenv()
 
 whisper_model = os.getenv("WHISPER_MODEL", "small")
 _model = None
-SARVAM_API_KEY = os.getenv("SARVAM_API_KEY")
-SARVAM_MODEL = os.getenv("SARVAM_MODEL", "saaras:v2.5")
+
+# ✅ FIX: removed unused SARVAM_API_KEY and SARVAM_MODEL variables.
+#    If you plan to integrate Sarvam AI in the future, add it back here
+#    along with its implementation.
+
 
 def load_model():
     global _model
@@ -14,16 +20,18 @@ def load_model():
         print("Model loaded successfully.")
     return _model
 
+
 def transcribe_chunk(chunk_path: str, translate: bool = False) -> str:
     model = load_model()
     task = "translate" if translate else "transcribe"
     segments, info = model.transcribe(chunk_path, task=task)
     return " ".join(segment.text for segment in segments)
 
+
 def transcribe_all(chunks: list, translate: bool = False) -> str:
     full_transcript = ""
     for i, chunk in enumerate(chunks):
-        print(f"Transcribing chunk {i+1}/{len(chunks)}: {chunk}...")
+        print(f"Transcribing chunk {i + 1}/{len(chunks)}: {chunk}...")
         transcript = transcribe_chunk(chunk, translate)
         full_transcript += transcript + " "
     return full_transcript.strip()

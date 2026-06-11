@@ -10,6 +10,7 @@ embeddings_model = "sentence-transformers/all-MiniLM-L6-v2"
 _embedding_instance = None
 _embedding_lock = threading.Lock()
 
+
 def get_embedding():
     global _embedding_instance
     if _embedding_instance is None:
@@ -42,13 +43,21 @@ def vector_store(transcript: str) -> Chroma:
         collection_name="meeting_session",
         embedding_function=embedding,
     )
-    vector_db.add_documents(documents)
+    if documents:
+        vector_db.add_documents(documents)
     print("Vector store built.....")
     return vector_db
 
 
-def load_vector_store():
-    return vector_store("")
+# ✅ FIX: load_vector_store now requires the transcript to build a meaningful store,
+#    since we use EphemeralClient (in-memory only — no persistence between sessions).
+def load_vector_store(transcript: str) -> Chroma:
+    if not transcript:
+        raise ValueError(
+            "A transcript must be provided. EphemeralClient is in-memory only "
+            "and cannot persist data between sessions."
+        )
+    return vector_store(transcript)
 
 
 def get_retriever(vector_db: Chroma, k: int = 4):
