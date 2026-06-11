@@ -1,12 +1,15 @@
 from dotenv import load_dotenv
 from core.summarize import summarize, generate_title
-from core.rag_engine import build_rag_chain, load_rag_chain, ask_question
+from core.rag_engine import build_rag_chain, ask_question
 import os
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace') if hasattr(sys.stdout, 'buffer') else sys.stdout
+
 load_dotenv()
-from langchain_core.documents import Document
 from utils.audio_processor import process_input
 from core.extractor import extract_action_items, extract_decisions, extract_questions
-from core.summarize import summarize, generate_title
 from core.transcribe import transcribe_all
 
 def run_pipeline(source:str)->dict:

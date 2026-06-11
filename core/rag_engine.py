@@ -1,10 +1,11 @@
 from langchain_mistralai import ChatMistralAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-# ✅ FIX: import from fixed vectore_store (adjust path to match your project layout)
-from core.vectore_store import vector_store, load_vector_store, get_retriever
-import os
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
+import os
+
+# ✅ FIX: corrected import path — removed wrong 'core.' prefix
+from core.vectore_store import vector_store, load_vector_store, get_retriever
 
 
 def get_llm():
@@ -60,8 +61,9 @@ def build_rag_chain(transcript: str):
     return rag_chain
 
 
-def load_rag_chain():
-    vs = load_vector_store()
+def load_rag_chain(transcript: str):
+    # ✅ FIX: accept transcript so vector store is actually populated
+    vs = load_vector_store(transcript)
     retriever = get_retriever(vs)
     llm = get_llm()
     prompt = get_base_prompt()
